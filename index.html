@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Zynoloth.official | ZYNO Launcher</title>
+<meta name="description" content="Discover ZYNO Launcher - A Minecraft Java launcher project for Android.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+zyno: {
+bg: '#09090F',
+card: '#12121E',
+primary: '#8B5CF6',
+neon: '#A855F7',
+surface: '#181829'
+}
+},
+fontFamily: {
+sans: ['Plus Jakarta Sans', 'sans-serif'],
+display: ['Space Grotesk', 'sans-serif']
+}
+}
+}
+}
+</script>
+
+<style>
+html {
+scroll-behavior: smooth;
+}
+
+body {
+background: #09090F;
+color: white;
+overflow-x: hidden;
+}
+
+.ambient {
+position: fixed;
+width: 450px;
+height: 450px;
+border-radius: 50%;
+background: radial-gradient(circle,rgba(139,92,246,.13),transparent 70%);
+pointer-events: none;
+z-index: 0;
+}
+
+.glow1 {top:-150px;left:-150px;}
+.glow2 {top:40%;right:-200px;}
+.glow3 {bottom:-150px;left:20%;}
+
+.glass {
+background: rgba(18,18,30,.85);
+backdrop-filter: blur(18px);
+border: 1px solid rgba(139,92,246,.18);
+}
+
+.neon {
+box-shadow: 0 0 30px rgba(139,92,246,.25);
+}
+
+.gradient-text {
+background: linear-gradient(90deg,#A78BFA,#D8B4FE,#FFFFFF);
+-webkit-background-clip: text;
+color: transparent;
+}
+
+.card {
+background: #12121E;
+border: 1px solid rgba(139,92,246,.15);
+transition: .3s;
+}
+
+.card:hover {
+transform: translateY(-5px);
+border-color: #8B5CF6;
+box-shadow: 0 10px 35px rgba(139,92,246,.12);
+}
+
+.btn {
+transition: .25s;
+}
+
+.btn:hover {
+transform: translateY(-3px);
+box-shadow: 0 0 25px rgba(139,92,246,.4);
+}
+
+section {
+scroll-margin-top: 90px;
+}
+
+::-webkit-scrollbar {
+width: 7px;
+}
+
+::-webkit-scrollbar-track {
+background: #09090F;
+}
+
+::-webkit-scrollbar-thumb {
+background: #8B5CF6;
+border-radius: 10px;
+}
+
+@keyframes float {
+0%,100% {transform:translateY(0);}
+50% {transform:translateY(-12px);}
+}
+
+.float {
+animation: float 4s ease-in-out infinite;
+}
+
+.reveal {
+opacity: 0;
+transform: translateY(25px);
+transition: .7s;
+}
+
+.reveal.show {
+opacity: 1;
+transform: translateY(0);
+}
+</style>
+</head>
+
+<body>
+
+<div class="ambient glow1"></div>
+<div class="ambient glow2"></div>
+<div class="ambient glow3"></div>
+
+<!-- NAVBAR -->
+
+<header class="fixed top-0 left-0 w-full z-50 glass">
+<div class="max-w-7xl mx-auto px-5 h-20 flex items-center justify-between">
+
+<a href="#home" class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-xl bg-gradient-to-br from-purple-700 to-purple-400 flex items-center justify-center neon">
+<i data-lucide="box" class="w-6 h-6"></i>
+</div>
+
+<div>
+<h1 class="font-display font-bold tracking-widest text-lg">ZYNOLOTH</h1>
+<p class="text-purple-400 text-xs tracking-widest">.OFFICIAL</p>
+</div>
+</a>
+
+<nav class="hidden lg:flex gap-6 text-sm text-gray-300">
+<a href="#home" class="hover:text-purple-400">Home</a>
+<a href="#about" class="hover:text-purple-400">About</a>
+<a href="#features" class="hover:text-purple-400">Features</a>
+<a href="#download" class="hover:text-purple-400">Download</a>
+<a href="#account" class="hover:text-purple-400">Account</a>
+<a href="#elyby" class="hover:text-purple-400">Ely.by</a>
+<a href="#updates" class="hover:text-purple-400">Updates</a>
+<a href="#support" class="hover:text-purple-400">Support</a>
+</nav>
+
+<a href="#download" class="hidden sm:flex btn px-5 py-2.5 rounded-xl bg-purple-600/20 border border-purple-500/40 text-purple-300 text-sm">
+<i data-lucide="download" class="w-4 h-4 mr-2"></i>
+Get APK
+</a>
+
+<button id="menuBtn" class="lg:hidden p-2">
+<i data-lucide="menu" class="w-7 h-7"></i>
+</button>
+
+</div>
+
+<div id="mobileMenu" class="hidden lg:hidden px-6 pb-6 bg-[#09090F]">
+<nav class="flex flex-col gap-4 text-gray-300">
+<a class="mobileLink" href="#home">Home</a>
+<a class="mobileLink" href="#about">About</a>
+<a class="mobileLink" href="#features">Features</a>
+<a class="mobileLink" href="#download">Download</a>
+<a class="mobileLink" href="#account">Account</a>
+<a class="mobileLink" href="#elyby">Ely.by</a>
+<a class="mobileLink" href="#updates">Updates</a>
+<a class="mobileLink" href="#support">Support</a>
+</nav>
+</div>
+</header>
+
+<main class="relative z-10 pt-20">
+
+<!-- HOME -->
+
+<section id="home" class="min-h-[90vh] flex items-center justify-center text-center px-5 py-24">
+
+<div class="max-w-4xl">
+
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-900/20 border border-purple-500/30 text-purple-300 text-xs mb-8">
+<span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
+MINECRAFT JAVA LAUNCHER PROJECT
+</div>
+
+<h1 class="font-display font-bold text-5xl sm:text-7xl md:text-8xl leading-tight">
+WELCOME TO
+<br>
+<span class="gradient-text">ZYNOLOTH</span>
+</h1>
+
+<p class="text-gray-400 text-base sm:text-xl max-w-2xl mx-auto mt-7 leading-relaxed">
+A new way to experience Minecraft Java on Android.
+Modern interface, account management and customization.
+</p>
+
+<div class="flex flex-col sm:flex-row justify-center gap-4 mt-10">
+
+<a href="#download" class="btn px-8 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-purple-500 font-bold flex items-center justify-center gap-3 neon">
+<i data-lucide="download"></i>
+Download ZYNO
+</a>
+
+<a href="#features" class="btn px-8 py-4 rounded-xl bg-[#181829] border border-purple-500/30 font-semibold flex items-center justify-center gap-3">
+<i data-lucide="compass"></i>
+Explore Features
+</a>
+
+</div>
+
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-20">
+
+<div class="card rounded-xl p-5">
+<h3 class="text-2xl font-bold text-purple-300">Android</h3>
+<p class="text-xs text-gray-400 mt-2">Target Platform</p>
+</div>
+
+<div class="card rounded-xl p-5">
+<h3 class="text-2xl font-bold text-purple-300">Local</h3>
+<p class="text-xs text-gray-400 mt-2">Offline Profiles</p>
+</div>
+
+<div class="card rounded-xl p-5">
+<h3 class="text-2xl font-bold text-purple-300">Fabric</h3>
+<p class="text-xs text-gray-400 mt-2">Planned Support</p>
+</div>
+
+<div class="card rounded-xl p-5">
+<h3 class="text-2xl font-bold text-purple-300">Ely.by</h3>
+<p class="text-xs text-gray-400 mt-2">Integration Planned</p>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- ABOUT -->
+
+<section id="about" class="py-24 px-6 border-t border-purple-500/10">
+
+<div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+
+<div class="card rounded-3xl p-8 float">
+
+<div class="w-16 h-16 rounded-2xl bg-purple-900/30 flex items-center justify-center mb-6">
+<i data-lucide="layers" class="w-9 h-9 text-purple-400"></i>
+</div>
+
+<h2 class="font-display text-3xl font-bold mb-4">BUILT FOR GAMERS</h2>
+
+<p class="text-gray-400 leading-relaxed">
+ZYNO is an independent launcher project focused on bringing a modern Minecraft Java launcher experience to Android.
+</p>
+
+<div class="mt-7 space-y-3 text-sm">
+
+<div class="flex justify-between bg-[#181829] p-4 rounded-xl">
+<span class="text-gray-400">Platform</span>
+<span class="text-purple-300">Android</span>
+</div>
+
+<div class="flex justify-between bg-[#181829] p-4 rounded-xl">
+<span class="text-gray-400">Interface</span>
+<span class="text-purple-300">Dark Gaming UI</span>
+</div>
+
+<div class="flex justify-between bg-[#181829] p-4 rounded-xl">
+<span class="text-gray-400">Project Status</span>
+<span class="text-yellow-400">In Development</span>
+</div>
+
+</div>
+</div>
+
+<div>
+<p class="text-purple-400 text-xs tracking-widest font-bold mb-3">PROJECT OVERVIEW</p>
+
+<h2 class="font-display text-4xl sm:text-5xl font-bold mb-6">
+ABOUT <span class="gradient-text">ZYNO</span>
+</h2>
+
+<p class="text-gray-400 leading-relaxed mb-5">
+ZYNO Launcher aims to provide account management, Minecraft version management, mod customization and performance settings in one place.
+</p>
+
+<p class="text-gray-400 leading-relaxed">
+Our goal is to build a clean, accessible and lightweight launcher experience for Android users.
+</p>
+</div>
+
+</div>
+</section>
+
+<!-- FEATURES -->
+
+<section id="features" class="py-24 px-6 bg-purple-950/10 border-t border-purple-500/10">
+
+<div class="max-w-6xl mx-auto">
+
+<div class="text-center mb-14">
+<p class="text-purple-400 text-xs font-bold tracking-widest">CAPABILITIES & ROADMAP</p>
+<h2 class="font-display text-4xl sm:text-5xl font-bold mt-3">LAUNCHER FEATURES</h2>
+<p class="text-gray-400 mt-4">Explore the planned features of ZYNO Launcher.</p>
+</div>
+
+<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+<div class="card p-6 rounded-2xl">
+<i data-lucide="users" class="w-8 h-8 text-purple-400 mb-5"></i>
+<h3 class="font-bold text-lg">Multiple Accounts</h3>
+<p class="text-gray-400 text-sm mt-2">Manage and switch between saved profiles.</p>
+<span class="text-xs text-yellow-400 block mt-4">In Development</span>
+</div>
+
+<div class="card p-6 rounded-2xl">
+<i data-lucide="user" class="w-8 h-8 text-purple-400 mb-5"></i>
+<h3 class="font-bold text-lg">Local Accounts</h3>
+<p class="text-gray-400 text-sm mt-2">Create offline Minecraft profiles.</p>
+<span class="text-xs text-yellow-400 block mt-4">Basic UI Available</span>
+</div>
+
+<div class="card p-6 rounded-2xl">
+<i data-lucide="key" class="w-8 h-8 text-purple-400 mb-5"></i>
+<h3 class="font-bold text-lg">Ely.by Login</h3>
+<p class="text-gray-400 text-sm mt-2">Planned account authentication integration.</p>
+<span class="text-xs text-yellow-400 block mt-4">Planned</span>
+</div>
+
+<div class="card p-6 rounded-2xl">
+<i data-lucide="shirt" class="w-8 h-8 text-purple-400 mb-5"></i>
+<h3 class="font-bold text-lg">Skin & Cape</h3>
+<p class="text-gray-400 text-sm mt-2">Planned skin and cape support.</p>
+<span class="text-xs text-yellow-400 block mt-4">Planned</span>
+</div>
+
+<div class="card p-6 rounded-2xl">
+<i data-lucide="blocks" class="w-8 h-8 text-purple-400 mb-5"></i>
+<h3 class="font-bold text-lg">Mods & Modpacks</h3>
+<p class="text-gray-400 text-sm mt-2">Mod and modpack management roadmap.</p>
+<span class="text-xs text-yellow-400 block mt-4">Planned</span>
+</div>
+
+<div class="card p-6 rounded-2xl">
+<i data-lucide="settings" class="w-8 h-8 text-purple-400 mb-5"></i>
+<h3 class="font-bold text-lg">Advanced Settings</h3>
+<p class="text-gray-400 text-sm mt-2">Performance, storage and customization options.</p>
+<span class="text-xs text-yellow-400 block mt-4">In Development</span>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- DOWNLOAD -->
+
+<section id="download" class="py-24 px-6">
+
+<div class="max-w-4xl mx-auto text-center card rounded-3xl p-10">
+
+<div class="w-20 h-20 mx-auto rounded-2xl bg-purple-900/30 flex items-center justify-center mb-7">
+<i data-lucide="download" class="w-10 h-10 text-purple-400"></i>
+</div>
+
+<h2 class="font-display text-4xl font-bold">DOWNLOAD ZYNO</h2>
+
+<p class="text-gray-400 mt-4">
+The launcher is currently under development. The APK will be available here after its first release.
+</p>
+
+<div class="mt-8 inline-block px-5 py-2 rounded-full bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-sm">
+<i data-lucide="clock" class="inline w-4 h-4 mr-1"></i>
+Coming Soon
+</div>
+
+<div class="mt-8">
+<a href="#updates" class="btn inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-purple-600 font-bold">
+View Updates
+<i data-lucide="arrow-right" class="w-4 h-4"></i>
+</a>
+</div>
+
+</div>
+</section>
+
+<!-- ACCOUNT -->
+
+<section id="account" class="py-24 px-6 border-t border-purple-500/10">
+
+<div class="max-w-4xl mx-auto text-center">
+
+<i data-lucide="user-circle" class="w-16 h-16 mx-auto text-purple-400"></i>
+
+<h2 class="font-display text-4xl font-bold mt-6">ZYNO ACCOUNT</h2>
+
+<p class="text-gray-400 mt-4">
+A central account system for the ZYNO ecosystem is planned.
+</p>
+
+<div class="grid sm:grid-cols-2 gap-5 mt-10">
+
+<div class="card p-7 rounded-2xl">
+<i data-lucide="log-in" class="w-8 h-8 mx-auto text-purple-400"></i>
+<h3 class="font-bold text-xl mt-4">Login</h3>
+<p class="text-gray-400 text-sm mt-2">Sign in to your ZYNO account.</p>
+<button class="mt-5 px-6 py-2 rounded-lg bg-purple-600/30 text-purple-300 border border-purple-500/30" onclick="comingSoon()">
+Coming Soon
+</button>
+</div>
+
+<div class="card p-7 rounded-2xl">
+<i data-lucide="user-plus" class="w-8 h-8 mx-auto text-purple-400"></i>
+<h3 class="font-bold text-xl mt-4">Create Account</h3>
+<p class="text-gray-400 text-sm mt-2">Create your ZYNO profile.</p>
+<button class="mt-5 px-6 py-2 rounded-lg bg-purple-600/30 text-purple-300 border border-purple-500/30" onclick="comingSoon()">
+Coming Soon
+</button>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- ELYBY -->
+
+<section id="elyby" class="py-24 px-6 bg-purple-950/10 border-t border-purple-500/10">
+
+<div class="max-w-4xl mx-auto text-center">
+
+<div class="w-20 h-20 rounded-2xl bg-purple-900/30 flex items-center justify-center mx-auto">
+<i data-lucide="shield-check" class="w-10 h-10 text-purple-400"></i>
+</div>
+
+<h2 class="font-display text-4xl font-bold mt-7">ELY.BY INTEGRATION</h2>
+
+<p class="text-gray-400 mt-5 max-w-xl mx-auto">
+Ely.by authentication and supported Minecraft skin features are planned for ZYNO Launcher.
+</p>
+
+<button onclick="comingSoon()" class="btn mt-8 px-8 py-4 rounded-xl bg-purple-600 font-bold">
+<i data-lucide="key" class="inline w-5 h-5 mr-2"></i>
+Login with Ely.by
+</button>
+
+<p class="text-xs text-yellow-400 mt-5">Authentication integration is not active yet.</p>
+
+</div>
+</section>
+
+<!-- UPDATES -->
+
+<section id="updates" class="py-24 px-6">
+
+<div class="max-w-5xl mx-auto">
+
+<div class="text-center mb-12">
+<p class="text-purple-400 text-xs font-bold tracking-widest">DEVELOPMENT</p>
+<h2 class="font-display text-4xl font-bold mt-3">LATEST UPDATES</h2>
+</div>
+
+<div class="card p-6 rounded-2xl mb-5 flex gap-5 items-start">
+
+<div class="w-12 h-12 shrink-0 rounded-xl bg-purple-900/30 flex items-center justify-center">
+<i data-lucide="rocket" class="text-purple-400"></i>
+</div>
+
+<div>
+<h3 class="font-bold text-lg">ZYNO Development Started</h3>
+<p class="text-gray-400 text-sm mt-2">The launcher interface and account management system are being developed.</p>
+<span class="text-purple-400 text-xs mt-3 block">November 2026</span>
+</div>
+
+</div>
+
+<div class="card p-6 rounded-2xl flex gap-5 items-start">
+
+<div class="w-12 h-12 shrink-0 rounded-xl bg-purple-900/30 flex items-center justify-center">
+<i data-lucide="code" class="text-purple-400"></i>
+</div>
+
+<div>
+<h3 class="font-bold text-lg">Website Development</h3>
+<p class="text-gray-400 text-sm mt-2">The official Zynoloth website is being prepared.</p>
+<span class="text-purple-400 text-xs mt-3 block">November 2026</span>
+</div>
+
+</div>
+
+</div>
+</section>
+
+<!-- SUPPORT -->
+
+<section id="support" class="py-24 px-6 border-t border-purple-500/10">
+
+<div class="max-w-4xl mx-auto text-center">
+
+<i data-lucide="headset" class="w-14 h-14 text-purple-400 mx-auto"></i>
+
+<h2 class="font-display text-4xl font-bold mt-6">NEED HELP?</h2>
+
+<p class="text-gray-400 mt-4">
+Have a question or found a bug? Support options will be available here.
+</p>
+
+<div class="grid sm:grid-cols-2 gap-5 mt-10">
+
+<div class="card p-6 rounded-2xl">
+<i data-lucide="bug" class="w-8 h-8 text-purple-400 mx-auto"></i>
+<h3 class="font-bold mt-4">Report a Bug</h3>
+<p class="text-gray-400 text-sm mt-2">Help improve ZYNO.</p>
+</div>
+
+<div class="card p-6 rounded-2xl">
+<i data-lucide="book-open" class="w-8 h-8 text-purple-400 mx-auto"></i>
+<h3 class="font-bold mt-4">FAQ</h3>
+<p class="text-gray-400 text-sm mt-2">Frequently asked questions.</p>
+</div>
+
+</div>
+</div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer class="relative z-10 border-t border-purple-500/20 bg-[#08080D] px-6 py-12">
+
+<div class="max-w-6xl mx-auto">
+
+<div class="flex flex-col md:flex-row justify-between gap-10">
+
+<div>
+<h2 class="font-display text-2xl font-bold tracking-widest">ZYNOLOTH</h2>
+<p class="text-purple-400 text-xs tracking-widest">.OFFICIAL</p>
+<p class="text-gray-500 text-sm mt-4 max-w-sm">
+Your Minecraft. Your World. Your ZYNO.
+</p>
+</div>
+
+<div>
+<h3 class="font-bold mb-4">Explore</h3>
+<div class="flex flex-col gap-3 text-sm text-gray-400">
+<a href="#about">About</a>
+<a href="#features">Features</a>
+<a href="#download">Download</a>
+<a href="#updates">Updates</a>
+</div>
+</div>
+
+<div>
+<h3 class="font-bold mb-4">Account</h3>
+<div class="flex flex-col gap-3 text-sm text-gray-400">
+<a href="#account">ZYNO Account</a>
+<a href="#elyby">Ely.by</a>
+<a href="#support">Support</a>
+</div>
+</div>
+
+</div>
+
+<div class="border-t border-gray-800 mt-10 pt-7 text-center">
+
+<p class="text-gray-500 text-xs">
+© 2026 Zynoloth.official. All Rights Reserved.
+</p>
+
+<p class="text-gray-600 text-xs mt-3">
+ZYNO Launcher is an independent project and is not affiliated with Mojang or Microsoft.
+Minecraft is a trademark of Mojang AB.
+</p>
+
+</div>
+</div>
+</footer>
+
+<script>
+
+// Mobile menu
+
+const menuBtn = document.getElementById("menuBtn");
+const mobileMenu = document.getElementById("mobileMenu");
+
+menuBtn.addEventListener("click", () => {
+mobileMenu.classList.toggle("hidden");
+});
+
+document.querySelectorAll(".mobileLink").forEach(link => {
+link.addEventListener("click", () => {
+mobileMenu.classList.add("hidden");
+});
+});
+
+// Coming soon message
+
+function comingSoon() {
+alert("This feature is currently under development. Stay tuned for ZYNO updates!");
+}
+
+// Scroll reveal animation
+
+const observer = new IntersectionObserver(entries => {
+
+entries.forEach(entry => {
+if(entry.isIntersecting) {
+entry.target.classList.add("show");
+}
+});
+
+},{threshold:0.12});
+
+document.querySelectorAll(".card").forEach(card => {
+card.classList.add("reveal");
+observer.observe(card);
+});
+
+// Icons
+
+lucide.createIcons();
+
+</script>
+
+</body>
+  </html>
